@@ -12,9 +12,9 @@ def home():
 def getJS():
 	if request.method == 'POST':
 		data = request.form['data']
-		print(data);
+		print(data)
 	jsdata = request.form['javascript_data']
-	return json.loads(jsdata)
+	return render_template("index.html")
 
 
 # @app.route("/login", methods=["GET", "POST"])

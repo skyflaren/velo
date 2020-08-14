@@ -34,7 +34,7 @@ var rangeSlider = function(){
 
 $(document).ready(function(){
   $("#submit").click(function(){
-    var slider_data = $("#slider1").attr('value');
+    var slider_data = $("#slider1").val();
     console.log(slider_data);
     $.ajax({
       type : 'POST',
