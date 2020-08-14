@@ -1,0 +1,105 @@
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+.range-slider {
+	/*margin: 60px 0 0 0%;*/
+	width: 100%;
+}
+
+.range-slider__range {
+
+	-webkit-appearance: none;
+	width: 60%;
+	/*min-width: 200px;*/
+	height: 15px;
+	border-radius: 5px;
+	background: linear-gradient(90deg, #59bfff 40%, #bfd2de 40%);
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+	outline: none;
+	padding: 0;
+	opacity: 0.7;
+	margin: 0;
+}
+
+.range-slider__range:hover{
+    opacity: 1;
+}
+
+.range-slider__range::-webkit-slider-thumb {
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: var(--slider-thumb-blue);
+	box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	transition: background 0.15s ease-in-out;
+}
+
+.range-slider__range::-webkit-slider-thumb:hover {
+	background: var(--teal);
+}
+
+.range-slider__range:active::-webkit-slider-thumb {
+	background: var(--teal);
+}
+
+.range-slider__range::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	border: 0;
+	border-radius: 50%;
+	background: var(--slider-thumb-blue);
+	box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	transition: background 0.15s ease-in-out;
+}
+
+.range-slider__range::-moz-range-thumb:hover {
+	background: var(--teal);
+}
+
+.range-slider__range:active::-moz-range-thumb {
+	background: var(--teal);
+}
+
+/*.small.range-slider__range{
+    width: calc(40% - (73px));
+    width: calc();
+  }*/
+
+.range-slider__value {
+	display: inline-block;
+	position: relative;
+	width: 60px;
+	color: var(--shade-0);
+	line-height: 20px;
+	text-align: center;
+	border-radius: 3px;
+	background: var(--shade-10);
+	padding: 5px 10px;
+	margin-left: 8px;
+}
+
+.range-slider__value:after {
+	position: absolute;
+	top: 8px;
+	left: -7px;
+	width: 0;
+	height: 0;
+	border-top: 7px solid transparent;
+	border-right: 7px solid var(--shade-10);
+	border-bottom: 7px solid transparent;
+	content: '';
+}
+
+::-moz-range-track {
+	background: var(--shade-1);
+	border: 0;
+}
+
+input::-moz-focus-inner, input::-moz-focus-outer {
+	border: 0;
+}

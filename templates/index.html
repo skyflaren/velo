@@ -3,8 +3,11 @@
 	<head>
 		<title>velo</title>
 		<link href="{{ url_for('static',filename='css/styles.css') }}" rel="stylesheet" type="text/css"/>
+		<link href="{{ url_for('static',filename='css/slider.css') }}" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
+		
 		<div class="par">
 			<div class="left">
 				<div class="top">
@@ -15,7 +18,14 @@
 
 					<div class="param">
 						<span class="label">BUDGET</span>
-						<!-- <input class="option" placeholder="7"> -->
+						<form method = "POST" action = "#" name="myForm" onclick ="return false">
+						  <div class="range-slider">
+						    <input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1">
+						    <span class="range-slider__value">0</span>
+						  </div>
+						  <!-- <input type="submit" value="submit" id="submit"/> -->
+						</form>
+						<script src="{{ url_for('static',filename='js/slider.js') }}"></script>
 					</div>
 				</div>
 				<div class="bot">
