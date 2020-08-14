@@ -92,7 +92,7 @@ body{
 .top{
 	border-bottom: 2px solid var(--gry2);
 	padding-left: 1%;
-	padding-bottom: 1.25%;
+	padding-bottom: 1.5%;
 }
 
 .param{
@@ -136,18 +136,72 @@ body{
 .transit-method{
 	height: calc(0.5vh + 20px);
 	margin: 0px 7px;
+	cursor: pointer;
+
+	opacity: 20%;
+	transition: opacity 0.2s;
+
+	-webkit-opacity: 20%;
+	-webkit-transition: opacity 0.2s;
 }
+
+.transit-method:hover{
+	opacity: 40%;
+	-webkit-opacity: 40%;
+}
+
 
 .bot{
+	padding: 1.5% 1% 0;
+	padding-bottom: 0;
 	height: 100%;
-	/*background-color: red;*/
+	display: flex;
+	flex-direction: column;
+
+	/*display: -webkit-box;*/
+    display: -ms-flexbox;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
 }
 
+.title{
+	display: flex;
+	flex-direction: row;
+
+	/*display: -webkit-box;*/
+    display: -ms-flexbox;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+}
+
+.top-left{
+	width: 60%;
+	display: flex;
+}
+
+.top-right{
+	width: 40%;
+	padding: 8px;
+	padding-bottom: 15px;
+}
+
+.searchbar{
+	width: 100%;
+}
+
+.results{
+	margin-top: 10px;
+	background-color: var(--gry2);
+	height: 100%;
+}
 
 .right{
 	width: 30%;
 	background-color: var(--peach);
 }
+
 
 
 
