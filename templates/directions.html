@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQStAxxL0wjGxNFPIixAsjHwXRbRVhmkg&callback=initMap&libraries=&v=weekly"
+            defer
+        ></script>
+        <link href="directions.css" rel="stylesheet" type="text/css" />
+        <script src="directions&instructions.js"></script>
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="right-panel"></div>
+        <!--<input id="lat1" placeholder="Lat1"><br>
+        <input id="lng1" placeholder="Lng1"><br>
+        <input id="lat2" placeholder="Lat2"><br>
+        <input id="lng2" placeholder="Lng2"><br>-->
+        <button onclick="initMap()" id = "btn">Submit</button>
+        </div>
+    </body>
+</html> 
