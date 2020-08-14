@@ -11,6 +11,7 @@
 		<div class="par">
 			<div class="left">
 				<div class="top">
+
 					<div class="param">
 						<span class="label">TIME</span>
 						<input class="option" placeholder="7"></br>
@@ -27,9 +28,18 @@
 						</form>
 						<script src="{{ url_for('static',filename='js/slider.js') }}"></script>
 					</div>
+
+					<div class="param">
+						<span class="label">METHODS</span>
+						<img class="transit-method" src="{{ url_for('static',filename='img/walk.png') }}">
+						<img class="transit-method" src="{{ url_for('static',filename='img/transit.png') }}">
+						<img class="transit-method" src="{{ url_for('static',filename='img/car.png') }}">
+					</div>
+
 				</div>
 				<div class="bot">
 					<input id="auto" placeholder="Enter place" type="text" />
+
 					<script src="{{ url_for('static',filename='js/autocomplete.js') }}"></script>
 					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQStAxxL0wjGxNFPIixAsjHwXRbRVhmkg&libraries=places&callback=initAutocomplete" async defer>
 					</script>
