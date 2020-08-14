@@ -195,6 +195,29 @@ body{
 	margin-top: 10px;
 	background-color: var(--gry2);
 	height: 100%;
+	overflow-y: scroll;
+}
+
+.location{
+	padding: 5px 10px;
+	display: flex;
+	flex-direction: row;
+
+	/*display: -webkit-box;*/
+    display: -ms-flexbox;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+}
+
+.place-name{
+	font-family: metropolis;
+	font-weight: 500px;
+	padding-right: 20px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .right{

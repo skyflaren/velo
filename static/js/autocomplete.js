@@ -38,14 +38,35 @@ function onChange(){
                     var location = document.createElement('div');
 
                     var name = document.createElement('span');
+                    name.setAttribute('class', 'place-name');
                     name.innerHTML = place.name;
+
                     // name.innerHTML = results[0].geometry.location.lat()+ " " + results[0].geometry.location.lng() + " " + place.name;
+
+                    var lat = document.createElement('span');
+                    lat.innerHTML = results[0].geometry.location.lat();
+                    lat.style.visibility = "none";
+                    lat.style.display = "none";
+
+                    var lon = document.createElement('span');
+                    lon.innerHTML = results[0].geometry.location.lng()
+                    lon.style.visibility = "none";
+                    lon.style.display = "none";
+
 
                     var slider = document.createElement('div');
                     slider.innerHTML = document.getElementById('repeat').innerHTML;
 
+                    var script = document.createElement('script');
+                    script.src = "/static/js/slider.js";
+
                     location.appendChild(name);
+                    location.appendChild(lat);
+                    location.appendChild(lon);
                     location.appendChild(slider);
+                    location.appendChild(script);
+
+                    location.setAttribute('class', 'location');
                     document.getElementById("results").appendChild(location);
                 }
                 else {

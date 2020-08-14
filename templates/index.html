@@ -25,7 +25,6 @@
 						    	<span class="range-slider__value">0</span>
 						  	</div>
 						</form>
-						  	<!-- <input type="submit" value="submit" id="submit"/> -->
 						<script src="{{ url_for('static',filename='js/slider.js') }}"></script>
 					</div>
 
@@ -59,17 +58,18 @@
 			</div>
 			<div class="right">
 				<p>name and logo</p>
+				<input type="submit" value="submit" id="submit"/>
 			</div>
 		</div>
 
 		<script src="{{ url_for('static',filename='js/script.js') }}"></script>
-		<script id="repeat">
+		<div style="visibility:none; display:none" id="repeat">
 			<form method = "POST" action = "#" name="myForm" onclick ="return false">
 			  	<div class="range-slider">
 			    	<input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1">
 			    	<span class="range-slider__value">0</span>
 			  	</div>
 			</form>
-		</script>
+		</div>
 	</body>
 </html>

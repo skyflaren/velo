@@ -1,5 +1,4 @@
 for (let slider of document.getElementsByClassName("range-slider__range")){
-    console.log(slider);
     slider.addEventListener('mousemove', function(){
         var x = slider.value;
         var color = 'linear-gradient(90deg, #59bfff ' + x + '%, #bfd2de ' + x + '%)';
@@ -20,6 +19,7 @@ var rangeSlider = function(){
       value = $('.range-slider__value');
 
   slider.each(function(){
+    console.log(slider.length);
 
     value.each(function(){
       var value = $(this).prev().attr('value')/20;
