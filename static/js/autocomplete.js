@@ -11,11 +11,24 @@ function initAutocomplete(){
     autocomplete.addListener('place_changed', onChange);
 }
 function onChange(){
+    const geocoder = new google.maps.Geocoder();
     var place = autocomplete.getPlace();
     if (!place.geometry){
         document.getElementById('auto').placeholder = 'Enter place';
     }
     else{
-        document.getElementById('details').innerHTML = place.name;
+        geocoder.geocode(
+            {
+                placeId: place.place_id
+            },
+            (results, status) => {
+                if (status === "OK") {
+                    document.getElementById('details').innerHTML = results[0].geometry.location.lat()+ " " + results[0].geometry.location.lng();
+                } else {
+                    window.alert("Geocoder failed due to: " + status);
+                }
+            }
+        );
+        document.getElementById('auto').placeholder = 'Enter place';
     }
 }
