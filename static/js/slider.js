@@ -38,7 +38,7 @@ $(document).ready(function(){
     console.log(slider_data);
     $.post({
       url: "/",
-      data: slider_data
+      data: {'data':slider_data}
     });
   });
 });
