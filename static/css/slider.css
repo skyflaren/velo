@@ -17,7 +17,7 @@
 	min-width: 200px;
 	height: 15px;
 	border-radius: 5px;
-	background: linear-gradient(90deg, #59bfff 40%, #bfd2de 40%);
+	background: linear-gradient(90deg, #e3975d 40%, #e0d1c5 40%);
     -webkit-transition: .2s;
     transition: opacity .2s;
 	outline: none;
