@@ -1,31 +1,46 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600&display=swap');*/
 
-/*:root {
-	--gry1: #454242;
-}*/
+:root {
+	--gry1: #f2f2f2;
+	--peach: #e3a474;
+}
 
-/** {
+* {
     font-family: 'Work Sans', sans-serif;
-}*/
+}
 
-.body{
+body{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.par{
+    position: relative;
 	display: flex;
 	flex-direction: row;
-	display: -webkit-box;
+
+	/*display: -webkit-box;*/
     display: -ms-flexbox;
-    -webkit-box-orient: horizontal;
+    -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
 }
 
 .left{
-	width: 60%;
-	height: 100%;
-	background-color: red;
+	display: flex;
+	flex-direction: row;
+	display: inline-block;
+	width: 70%;
+	height: 100vh;
+	background-color: var(--gy1);
 }
 
 .right{
-	width: 40%;
-	height: 100%;
-	background-color: black;
+	display: flex;
+	flex-direction: row;
+	display: inline-block;
+	width: 30%;
+	height: 100vh;
+	background-color: var(--peach);
 }
