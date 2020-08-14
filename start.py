@@ -1,19 +1,18 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, request
 
-app = Flask(__name__);
+app = Flask(__name__)
 
 
 @app.route("/", methods = ['GET', 'POST'])
 def home():
-    return render_template("index.html")
+	if request.method == 'POST':
+		data = request.form.get('data', False)
+		print(data)
+	return render_template("index.html")
 
 
 @app.route('/updatelist', methods = ['POST'])
 def getJS():
-	if request.method == 'POST':
-		data = request.form['data']
-		print(data)
-	jsdata = request.form['javascript_data']
 	return render_template("index.html")
 
 

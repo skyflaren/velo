@@ -22,7 +22,7 @@ var rangeSlider = function(){
     // console.log(slider.length);
 
     value.each(function(){
-      var value = $(this).prev().attr('value')/20;
+      var value = $(this).prev().val()/20;
       $(this).html(value);
     });
 
@@ -36,10 +36,9 @@ $(document).ready(function(){
   $("#submit").click(function(){
     var slider_data = $("#slider1").val();
     console.log(slider_data);
-    $.ajax({
-      type : 'POST',
-      url : "{{url_for('home')}}",
-      data : {'data':slider_data}
+    $.post({
+      url: "/",
+      data: slider_data
     });
   });
 });
