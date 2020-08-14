@@ -28,10 +28,7 @@ function onChange(){
                     document.getElementById('auto').value = '';
                     // document.getElementById('details').innerHTML = results[0].geometry.location.lat()+ " " + results[0].geometry.location.lng();
 
-                    // $.post( "/updatelist", {
-                    //     lat: results[0].geometry.location.lat(),
-                    //     lon: results[0].geometry.location.lng(),
-                    // });
+                    
 
                     // div.setAttribute('class', 'someClass');
 

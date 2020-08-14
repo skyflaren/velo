@@ -3,15 +3,18 @@ from flask import Flask, redirect, url_for, render_template
 app = Flask(__name__);
 
 
-@app.route("/")
+@app.route("/", methods = ['GET', 'POST'])
 def home():
     return render_template("index.html")
 
 
 @app.route('/updatelist', methods = ['POST'])
 def getJS():
-    jsdata = request.form['javascript_data']
-    return json.loads(jsdata)
+	if request.method == 'POST':
+		data = request.form['data']
+		print(data);
+	jsdata = request.form['javascript_data']
+	return json.loads(jsdata)
 
 
 # @app.route("/login", methods=["GET", "POST"])

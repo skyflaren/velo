@@ -19,7 +19,7 @@ var rangeSlider = function(){
       value = $('.range-slider__value');
 
   slider.each(function(){
-    console.log(slider.length);
+    // console.log(slider.length);
 
     value.each(function(){
       var value = $(this).prev().attr('value')/20;
@@ -34,7 +34,7 @@ var rangeSlider = function(){
 
 $(document).ready(function(){
   $("#submit").click(function(){
-    var slider_data = $("#slider3").attr('value');
+    var slider_data = $("#slider1").attr('value');
     console.log(slider_data);
     $.ajax({
       type : 'POST',

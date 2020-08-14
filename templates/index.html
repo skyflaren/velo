@@ -14,14 +14,14 @@
 
 					<div class="param">
 						<span class="label">TIME</span>
-						<input class="option" placeholder="7"></br>
+						<input class="option" id="time" placeholder="7"></br>
 					</div>
 
 					<div class="param">
-						<span class="label">BUDGET</span>
+						<span class="label">ACCOMODATION</span> 
 						<form method = "POST" action = "#" name="myForm" onclick ="return false">
 						  	<div class="range-slider">
-						    	<input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1">
+						    	<input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1" id="slider1">
 						    	<span class="range-slider__value">0</span>
 						  	</div>
 						</form>
@@ -58,7 +58,9 @@
 			</div>
 			<div class="right">
 				<p>name and logo</p>
-				<input type="submit" value="submit" id="submit"/>
+				<form method = "POST" action = "#" name="myForm" onclick ="getValues()">
+					<input type="submit" value="submit" id="submit"/>
+				</form>
 			</div>
 		</div>
 
