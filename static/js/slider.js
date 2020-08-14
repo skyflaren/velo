@@ -1,13 +1,13 @@
 for (let slider of document.getElementsByClassName("range-slider__range")){
     slider.addEventListener('mousemove', function(){
         var x = slider.value;
-        var color = 'linear-gradient(90deg, #59bfff ' + x + '%, #bfd2de ' + x + '%)';
+        var color = 'linear-gradient(90deg, #e3975d ' + x + '%, #e0d1c5 ' + x + '%)';
         slider.style.background = color;
     });
     slider.addEventListener('mouseup', function(){
         var x = Math.round(slider.value/20)*20;
         slider.value = x;
-        var color = 'linear-gradient(90deg, #59bfff ' + x + '%, #bfd2de ' + x + '%)';
+        var color = 'linear-gradient(90deg, #e3975d ' + x + '%, #e0d1c5 ' + x + '%)';
         slider.style.background = color;
     });
 
