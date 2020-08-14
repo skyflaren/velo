@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
-<head>
-	<title>velo</title>
-	<link href="styles.css" rel="stylesheet" type="text/css"/>
-</head>
+	<head>
+		<title>velo</title>
+		<link href="{{ url_for('static',filename='css/styles.css') }}" rel="stylesheet" type="text/css"/>
+	</head>
 	<body>
+		<div class="par">
+			<div class="left">
+				<p>lmaooooo</p>
+			</div>
+			<div class="right">
+				<p> test</p>
+			</div>
+		</div>
 
-		<script src="script.js"></script>
+		<script src="{{ url_for('static',filename='js/script.js') }}"></script>
 	</body>
 </html>
