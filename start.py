@@ -8,14 +8,20 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    return render_template();
+@app.route('/updatelist', methods = ['POST'])
+def getJS():
+    jsdata = request.form['javascript_data']
+    return json.loads(jsdata)
 
 
-@app.route("/<usr>")
-def user(usr):
-    return f"<h1>{usr}</h1>";
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     return render_template();
+
+
+# @app.route("/<usr>")
+# def user(usr):
+#     return f"<h1>{usr}</h1>";
 
 
 if __name__ == "__main__":

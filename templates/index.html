@@ -20,12 +20,12 @@
 					<div class="param">
 						<span class="label">BUDGET</span>
 						<form method = "POST" action = "#" name="myForm" onclick ="return false">
-						  <div class="range-slider">
-						    <input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1">
-						    <span class="range-slider__value">0</span>
-						  </div>
-						  <!-- <input type="submit" value="submit" id="submit"/> -->
+						  	<div class="range-slider">
+						    	<input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1">
+						    	<span class="range-slider__value">0</span>
+						  	</div>
 						</form>
+						  	<!-- <input type="submit" value="submit" id="submit"/> -->
 						<script src="{{ url_for('static',filename='js/slider.js') }}"></script>
 					</div>
 
@@ -47,13 +47,14 @@
 						</div>
 					</div>
 
-					<div class="results">
+					<div class="results" id="results">
+						<p id='details'></p>
 					</div>
 
 					<script src="{{ url_for('static',filename='js/autocomplete.js') }}"></script>
 					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQStAxxL0wjGxNFPIixAsjHwXRbRVhmkg&libraries=places&callback=initAutocomplete" async defer>
 					</script>
-					<p id='details'></p>
+					
 				</div>
 			</div>
 			<div class="right">
@@ -62,5 +63,13 @@
 		</div>
 
 		<script src="{{ url_for('static',filename='js/script.js') }}"></script>
+		<script id="repeat">
+			<form method = "POST" action = "#" name="myForm" onclick ="return false">
+			  	<div class="range-slider">
+			    	<input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1">
+			    	<span class="range-slider__value">0</span>
+			  	</div>
+			</form>
+		</script>
 	</body>
 </html>
