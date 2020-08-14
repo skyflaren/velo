@@ -29,7 +29,11 @@
 					</div>
 				</div>
 				<div class="bot">
-					
+					<input id="auto" placeholder="Enter place" type="text" />
+					<script src="{{ url_for('static',filename='js/autocomplete.js') }}"></script>
+					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQStAxxL0wjGxNFPIixAsjHwXRbRVhmkg&libraries=places&callback=initAutocomplete" async defer>
+					</script>
+					<p id='details'></p>
 				</div>
 			</div>
 			<div class="right">

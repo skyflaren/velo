@@ -10,7 +10,7 @@ function initAutocomplete(){
     );
     autocomplete.addListener('place_changed', onChange);
 }
-function onChanged(){
+function onChange(){
     var place = autocomplete.getPlace();
     if (!place.geometry){
         document.getElementById('auto').placeholder = 'Enter place';
