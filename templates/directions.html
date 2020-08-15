@@ -8,13 +8,8 @@
         <link href="{{ url_for('static',filename='css/directions.css') }}" rel="stylesheet" type="text/css" />
         <script src="{{ url_for('static',filename='js/directions&instructions.js') }}"></script>
         <script>
-            $(document).ready(function(){
-                    $.get({
-                        url: "directions/{{day}}/{{total}}",
-                        success: function(data){
-                            write_to_schedule(JSON.parse(data.schedule));
-                    }});
-            });
+            var data = JSON.parse('{{ data | tojson | safe}}');
+            pass_to_script(data);
         </script>
     </head>
     <body>

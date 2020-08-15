@@ -71,7 +71,8 @@ def directions(day, total):
     print(schedule)
     # if request.method == 'GET':
         # return jsonify({'schedule':schedule[int(day)-1]})
-    return render_template("directions.html", schedule=schedule[int(day)-1], day=day, total=total)
+    data = {'schedule': schedule[int(day)-1], 'day': day, 'total':total}
+    return render_template("directions.html", data=data)
 
 # @app.route("/login", methods=["GET", "POST"])
 # def login():

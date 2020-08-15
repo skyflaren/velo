@@ -1,4 +1,6 @@
-var schedule = [];
+var schedule = [],
+day = 1,
+total = 1;
 
 function initMap() {
   
@@ -48,8 +50,6 @@ function initMap() {
     transmethod
   );
 
-
-  alert("thing");
 }
 
 function displayRoute(origin, waypoint, destination, service, display, transmethod) {
@@ -93,6 +93,11 @@ function restyle(){
   }
 }
 
-function write_to_schedule(data){
+function pass_to_script(data){
     schedule = data['schedule'];
+    day = parseInt(data['day']);
+    total = parseInt(data['total']);
+    console.log(schedule);
+    console.log(day);
+    console.log(total);
 }
