@@ -48,6 +48,9 @@ def process():
 	return jsonify({'schedule': schedule,
 					'warning': warning})
 
+@app.route('/directions', methods=['GET', 'POST'])
+def directions():
+	return render_template("directions.html");
 
 # @app.route("/login", methods=["GET", "POST"])
 # def login():

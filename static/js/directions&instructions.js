@@ -26,12 +26,12 @@ function initMap() {
   );
 }
 
-function displayRoute(origin,waypoint, destination, service, display) {
+function displayRoute(origin, waypoint, destination, service, display) {
   service.route(
     {
       origin: origin,
       destination: destination,
-      waypoints: [  
+      waypoints: [
          { location: waypoint }
       ],
       travelMode: google.maps.TravelMode.DRIVING,
@@ -43,6 +43,12 @@ function displayRoute(origin,waypoint, destination, service, display) {
         instance = document.createElement('img');
         instance.src = "plus-circle.svg";
         document.getElementById("right-panel").appendChild(instance);
+
+        for(let marker of document.getElementsByClassName("adp-marker2")){
+          console.log("lmao");
+          marker.src = "map-pin.svg";
+        }
+
       } else {
         alert("Could not display directions due to: " + status);
       }

@@ -4,10 +4,9 @@
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
         <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQStAxxL0wjGxNFPIixAsjHwXRbRVhmkg&callback=initMap&libraries=&v=weekly"
-            defer
-        ></script>
-        <link href="directions.css" rel="stylesheet" type="text/css" />
-        <script src="directions&instructions.js"></script>
+            defer></script>
+        <link href="{{ url_for('static',filename='css/directions.css') }}" rel="stylesheet" type="text/css" />
+        <script src="{{ url_for('static',filename='js/directions&instructions.js') }}"></script>
     </head>
     <body>
         <div id="map"></div>

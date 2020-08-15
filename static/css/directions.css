@@ -1,8 +1,28 @@
+:root {
+  --gry1: #f2f2f2;
+  --gry2: #ddd;
+  --gry3: #5e5e5e;
+  --gry4: #474747;
+  --peach: #e3a474;
+
+  --logo: #d76d4cff;
+
+
+  --shade-10: var(--peach);
+  --shade-1: #dfdbd7;
+  --shade-0: #fff;
+  --teal: var(--peach);
+  --slider-thumb: #ff882e;
+}
+
+
+
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 #map {
@@ -16,9 +36,35 @@ body {
   float: right;
   width: 34%;
   height: 100%;
+  overflow-y: scroll;
+  padding: 10px;
 }
 
 .panel {
   height: 100%;
   overflow: auto;
+}
+
+.adp{
+  color: green;
+  border-color: green;
+}
+
+.adp-text{
+  color: var(--logo) !important;
+  font-weight: bold;
+}
+
+.adp-placemark{
+  background: #efefef !important;
+  border: none !important;
+}
+
+.adp-substep{
+  color: var(--gry3) !important;
+}
+
+tr{
+  border-bottom: 2px solid #eee !important;
+  border-color: #eee !important;
 }
