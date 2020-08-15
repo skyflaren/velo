@@ -72,11 +72,10 @@ $(document).ready(function(){
                 longitudes: JSON.stringify(longitudes),
                 durations: JSON.stringify(durations),
             }
-        });
-
+        })
         .done(function(data) {
             if(data.warning){
-                console.log(warning)
+                console.log(warning);
             }
         });
         event.preventDefault();
