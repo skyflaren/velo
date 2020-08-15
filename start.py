@@ -1,29 +1,48 @@
-from flask import Flask, redirect, url_for, render_template, request
+import numpy as np, pandas as pd
+
+from flask import Flask, redirect, url_for, render_template, request, jsonify
+from geolocation_clustering import geolocation_cluster
 
 app = Flask(__name__)
 
+trip_length = ""
+names = []
+lats = []
+lons = []
+durs = []
 
-@app.route("/", methods = ['GET', 'POST'])
+
+@app.route("/", methods=['GET', 'POST'])
 def home():
-	if request.method == 'POST':
-		data = request.form.get('data', False)
-		if(data != False): print(data)
-
-		data = request.form.get('budget', False);
-		if(data != False): print(data)
-
-		data = request.form.get('time', False);
-		if(data != False): print(data)
-
-		data = request.form.get('coords', False);
-		if(data != False): print(data[coords["lat"]])
-
 	return render_template("index.html")
 
 
-@app.route('/updatelist', methods = ['POST'])
-def getJS():
-	return render_template("index.html")
+@app.route('/process', methods=['POST'])
+def process():
+
+	trip_length = request.form['time']
+	budget = request.form['budget']
+	names = request.form['names']
+	lats = request.form['latitudes']
+	lons = request.form['longitudes']
+	durs = request.form['durations']
+
+	print(trip_length)
+	print(budget)
+	print(names)
+	print(lats)
+	print(lons)
+	print(durs)
+
+	if not(trip_length and names):
+		return jsonify({'error': 'Missing Fields!'})
+
+	arr = np.asarray([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
+	df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
+
+	schedule, warning = geolocation_cluster(df, trip_length)
+	return jsonify({'schedule': schedule,
+					'warning': warning})
 
 
 # @app.route("/login", methods=["GET", "POST"])

@@ -36,39 +36,46 @@ var rangeSlider = function(){
 $(document).ready(function(){
     $("#submit").off().click(function(){
 
-        //Time
+        var time_val = "",
+        budget = "",
+        durations = [],
+        latitudes = [],
+        longitudes = [],
+        names = [];
+
         time = document.getElementById("time");
-        $.post({
-            url: "/",
-            data: {'time':time.value}
-        });
-
-        //Accomodations Budget
-        accom = document.getElementById('slider1');
-        $.post({
-            url: "/",
-            data: {'budget':accom.value}
-        });
-
+        time_val = time.value;
 
         //Sliders
         for(let locat of document.getElementsByClassName('location')){
-            console.log("test");
-            console.log(locat.childNodes[1].length);
-            // console.log(locat.childNodes[1].innerHTML + " " + locat.childNodes[2].innerHTML);
             // Per Location Time
-            $.post({
-                url: "/",
-                data: { 
-                  "coords": { 
-                    "lat": locat.childNodes[1].innerHTML, 
-                    "lon": locat.childNodes[2].innerHTML,
-                  } 
-                },
-            });
+            names.push(locat.childNodes[0].innerHTML);
+            latitudes.push(locat.childNodes[1].innerHTML);
+            longitudes.push(locat.childNodes[2].innerHTML);
         };
-        
-        
+
+        for(let locat of document.getElementsByClassName('range-slider__value')){
+            durations.push(locat.innerHTML);
+        }
+
+        budget = durations.shift();
+
+        $.ajax({
+            type: "POST",
+            url: '/process',
+            dataType: "json",
+            traditional: true,
+            data: {
+                time: time_val,
+                budget: budget,
+                names: names,
+                latitudes: latitudes,
+                longitudes: longitudes,
+                durations: durations,
+            }
+        });
+
+        event.preventDefault();
     });
 });
 
