@@ -33,7 +33,6 @@ function initAutocomplete(){
         document.getElementById('auto'),
         {
             types: ['establishment'],
-            componentRestrictions: {'country': ['ID']},
             fields: ['place_id', 'geometry', 'name']
         }
     );
