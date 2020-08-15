@@ -14,43 +14,42 @@ durs = []
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-	return render_template("index.html")
+    return render_template("index.html")
 
 
 @app.route('/process', methods=['POST'])
 def process():
+    trip_length = int(request.form['time'])
+    rating = request.form['rating']
+    names = eval(request.form['names'])
+    lats = eval(request.form['latitudes']) #stringed array back to list
+    lons = eval(request.form['longitudes'])
+    durs = eval(request.form['durations'])
 
-	trip_length = request.form['time']
-	budget = request.form['budget']
-	names = request.form['names']
-	lats = eval(request.form['latitudes']) #stringed array back to list
-	lons = eval(request.form['longitudes'])
-	durs = eval(request.form['durations'])
+    lats = list(map(float, lats))
+    lons = list(map(float, lons))
+    durs = list(map(float, durs))
 
-	lats = list(map(float, lats))
-	lons = list(map(float, lons))
-	durs = list(map(float, durs))
+    print(trip_length)
+    print(rating)
+    print(names)
+    print(lats)
+    print(lons)
+    print(durs)
 
-	print(trip_length)
-	print(budget)
-	print(names)
-	print(lats)
-	print(lons)
-	print(durs)
+    if not(trip_length and names):
+        return jsonify({'warning': 'Missing Fields!'})
 
-	if not(trip_length and names):
-		return jsonify({'warning': 'Missing Fields!'})
+    arr = list([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
+    df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
 
-	arr = np.asarray([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
-	df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
-
-	schedule, warning = geolocation_cluster(df, trip_length)
-	return jsonify({'schedule': schedule,
-					'warning': warning})
+    schedule, warning = geolocation_cluster(df, trip_length)
+    return jsonify({'schedule': schedule,
+                    'warning': warning})
 
 @app.route('/directions', methods=['GET', 'POST'])
 def directions():
-	return render_template("directions.html");
+    return render_template("directions.html");
 
 # @app.route("/login", methods=["GET", "POST"])
 # def login():
