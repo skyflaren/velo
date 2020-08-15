@@ -19,16 +19,12 @@ def home():
 
 @app.route('/process', methods=['POST'])
 def process():
-    trip_length = int(request.form['time'])
+    trip_length = request.form['time']
     rating = request.form['rating']
     names = eval(request.form['names'])
     lats = eval(request.form['latitudes']) #stringed array back to list
     lons = eval(request.form['longitudes'])
     durs = eval(request.form['durations'])
-
-    lats = list(map(float, lats))
-    lons = list(map(float, lons))
-    durs = list(map(float, durs))
 
     print(trip_length)
     print(rating)
@@ -39,6 +35,12 @@ def process():
 
     if not(trip_length and names):
         return jsonify({'warning': 'Missing Fields!'})
+
+    trip_length = int(trip_length)
+    lats = list(map(float, lats))
+    lons = list(map(float, lons))
+    durs = list(map(float, durs))
+
 
     arr = list([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
     df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])

@@ -116,13 +116,18 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
 
     location_duration_dict = {}
     location_day_dict = {}
+    location_name_dict = {}
     for loc in dataframe:
         location_duration_dict[(loc[1], loc[2])] = loc[3]
+
+    for loc in dataframe:
+        location_name_dict[(loc[1], loc[2])] = loc[0]
 
     num_centers = []
     cluster_hours = []
 
     for num, cluster in enumerate(clusters):
+        print(location_duration_dict)
         cluster_hours.append(sum(location_duration_dict[(idx[0], idx[1])] for idx in cluster))
         num_centers.append(min(1,round(cluster_hours[num] / total_hours * trip_length)))  # how many days should be spent at each cluster
 
@@ -244,8 +249,7 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
                         found = True
 
             if not found:
-                warnings.append("The program detected that there was an outlier location at " + str(lat) + ", "
-                                + str(lon) + ". There were no times in the schedule where the location could be "
+                warnings.append("The program detected that there was an outlier location at " + location_name_dict[(lat,lon)] + ". There were no times in the schedule where the location could be "
                                 "slotted. Consider changing the visit duration of that location or the timeframe "
                                 "of the trip for better results.")
 
