@@ -73,11 +73,11 @@ $(document).ready(function(){
                 durations: JSON.stringify(durations),
             }
         })
-        .done(function(data) {
-            if(data.warning){
-                console.log(warning);
-            }
-        });
+        // .done(function(data) {
+        //     if(data.warning){
+        //         console.log(data.warning);
+        //     }
+        // });
         event.preventDefault();
     });
 });

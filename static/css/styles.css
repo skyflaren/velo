@@ -37,7 +37,7 @@
 :root {
 	--gry1: #f2f2f2;
 	--gry2: #ddd;
-	--gry3: #5e5e5e;
+	--gry3: #808080;
 	--gry4: #474747;
 	--peach: #e3a474;
 
@@ -198,6 +198,7 @@ body{
 	background-color: var(--gry2);
 	height: 100%;
 	overflow-y: scroll;
+	padding: 10px;
 }
 
 .location{
@@ -273,5 +274,18 @@ body{
 	right: 20px;
 	bottom: 20px;
 	z-index: 1;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--gry2);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--gry2);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--gry2);
 }
 
