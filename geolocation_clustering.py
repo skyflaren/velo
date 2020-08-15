@@ -224,6 +224,7 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
 
     hotel_names = []  # hotel for each cluster
     hotel_latlons = []  # hotel latitude longitude
+    hotel_availability = []  # if a hotel can be found
 
     def get_centroid(cluster):
         centroid = (MultiPoint(cluster).centroid.x, MultiPoint(cluster).centroid.y)
@@ -243,50 +244,64 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
         hotel_latlon = ""
         hotel_rating = 0
 
-        for result in search_query['results']:
-            result_name = result['name']
-            result_latlon = [result['geometry']['location']['lat'], result['geometry']['location']['lng']]
-            result_rating = result['rating']
-            result_dist = haversine(centroid, result_latlon)
+        if search_query['status'] == "OK":
+            for result in search_query['results']:
+                result_name = result['name']
+                result_latlon = [result['geometry']['location']['lat'], result['geometry']['location']['lng']]
+                result_rating = result['rating']
+                result_dist = haversine(centroid, result_latlon)
 
-            if abs(result_rating - rating) <= 0.5 and abs(hotel_rating - rating) <= 0.5 and result_dist < min_dist:
-                hotel_name = result_name
-                hotel_latlon = result_latlon
-                hotel_rating = result_rating
-                min_dist = result_dist
+                if abs(result_rating - rating) <= 0.5 and abs(hotel_rating - rating) <= 0.5 and result_dist < min_dist:
+                    hotel_name = result_name
+                    hotel_latlon = result_latlon
+                    hotel_rating = result_rating
+                    min_dist = result_dist
 
-            elif abs(result_rating - rating) <= 0.5 and 0.5 < abs(hotel_rating - rating):
-                hotel_name = result_name
-                hotel_latlon = result_latlon
-                hotel_rating = result_rating
-                min_dist = result_dist
+                elif abs(result_rating - rating) <= 0.5 and 0.5 < abs(hotel_rating - rating):
+                    hotel_name = result_name
+                    hotel_latlon = result_latlon
+                    hotel_rating = result_rating
+                    min_dist = result_dist
 
-        hotel_names.append(hotel_name)
-        hotel_latlons.append(hotel_latlon)
-        location_duration_dict[(hotel_latlon[0], hotel_latlon[1])] = 999
+            hotel_names.append(hotel_name)
+            hotel_latlons.append(hotel_latlon)
+            hotel_availability.append(True)
+            location_duration_dict[(hotel_latlon[0], hotel_latlon[1])] = 999
+        else:
+            warnings.append("Couldn't find a hotel for " + str(len(cluster)) + "days. The algorithm has calculated the"
+                            "schedule based on the first activity for those days. Please find suitable accommodation.")
+            hotel_availability.append(False)
+            hotel_names.append("")
+            hotel_latlons.append([])
 
     for cid, cluster in enumerate(schedule):
         for did, day in enumerate(cluster):
-            n = len(day)+1
-            graph = [[0 for _ in range(n)] for __ in range(n)]
             hotel_and_locations = []
-            hotel_and_locations.append(hotel_latlons[cid])
+            n = len(day)
+            if hotel_availability[cid]:
+                n = len(day) + 1
+                hotel_and_locations.append(hotel_latlons[cid])
+
+            graph = [[0 for _ in range(n)] for __ in range(n)]
+
             for i in schedule[cid][did]:
                 hotel_and_locations.append(i)
             tm_dict = googlemaps.client.distance_matrix(client=gmaps,
                                                         origins=hotel_and_locations,
                                                         destinations=hotel_and_locations)
+
             rows = tm_dict['rows']
             for rw, row in enumerate(rows):
                 elements = row['elements']
                 for cl, element in enumerate(elements):
-                    graph[rw][cl] = element['duration']['value']
-
-            # print(graph)
+                    if element['status'] == "OK":
+                        graph[rw][cl] = element['duration']['value']
+                    else:
+                        warnings.append("There were issues generating the distances between locations, please check"
+                                        "that all of the locations are in valid locations.")
 
             path = tsp(graph)
             final_schedule[cid][did].append(hotel_latlons[cid])
-            # print(path)
             for i in path[1:]:
                 final_schedule[cid][did].append(day[i-1])
             final_schedule[cid][did].append(hotel_latlons[cid])
@@ -325,25 +340,25 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
                 print(location, "Hours spent at location: ", location_duration_dict[(location[0],location[1])]) #Hotels don't have a duration dict will need to accomodate
     print(warnings)
 
-    return schedule, warnings
+    return final_schedule, warnings
 
 
-data = np.array([  # test dataframe
-    [1.315249, 103.816255, 2],
-    [1.296586, 103.848335, 3],
-    [1.289530, 103.863248, 3],
-    [1.4037233, 103.7858772, 4],
-    [1.2713286, 103.8172769, 2],
-    [1.2569835, 103.8180789, 3],
-    [1.2805229, 103.8638607, 4],
-    [1.2843188, 103.8571331, 1],
-    [1.301674, 103.8358879, 1],
-    [1.32108, 103.7030203, 2],
-    [1.2564851, 103.818169, 3],
-    [1.2540373, 103.8154328, 4],
-    [1.2644032, 103.8200184, 2],
-])
-
-df = pd.DataFrame(data, columns=["lat", "lon", "avg_time"])
-
-schedule, warnings = geolocation_cluster(df,d=3,r=4)
+# data = np.array([  # test dataframe
+#     [1.315249, 103.816255, 2],
+#     [1.296586, 103.848335, 3],
+#     [1.289530, 103.863248, 3],
+#     [1.4037233, 103.7858772, 4],
+#     [1.2713286, 103.8172769, 2],
+#     [1.2569835, 103.8180789, 3],
+#     [1.2805229, 103.8638607, 4],
+#     [1.2843188, 103.8571331, 1],
+#     [1.301674, 103.8358879, 1],
+#     [1.32108, 103.7030203, 2],
+#     [1.2564851, 103.818169, 3],
+#     [1.2540373, 103.8154328, 4],
+#     [1.2644032, 103.8200184, 2],
+# ])
+#
+# df = pd.DataFrame(data, columns=["lat", "lon", "avg_time"])
+#
+# schedule, warnings = geolocation_cluster(df,d=3,r=4)
