@@ -22,7 +22,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  /*overflow: hidden;*/
+  overflow: auto;
 }
 
 #map {
@@ -43,7 +43,7 @@ body {
   float: right;
   width: 34%;
   height: 90%;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 10px;
 }
 
