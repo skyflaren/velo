@@ -140,16 +140,16 @@ body{
 	margin: 0px 7px;
 	cursor: pointer;
 
-	opacity: 20%;
-	transition: opacity 0.2s;
+	opacity: 0.2;
+	transition: opacity 0.1s;
 
-	-webkit-opacity: 20%;
-	-webkit-transition: opacity 0.2s;
+	-webkit-opacity: 0.2;
+	-webkit-transition: opacity 0.1s;
 }
 
 .transit-method:hover{
-	opacity: 40%;
-	-webkit-opacity: 40%;
+	opacity: 0.4;
+	-webkit-opacity: 0.4;
 }
 
 

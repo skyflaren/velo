@@ -16,7 +16,7 @@
 					<div class="param">
 						<span class="label">TIME</span>
 						<span class="expl">(days)</span>
-						
+
 						<input class="option" id="time" placeholder="(days)"></br>
 					</div>
 
@@ -36,6 +36,7 @@
 						<img class="transit-method" src="{{ url_for('static',filename='img/walk.png') }}">
 						<img class="transit-method" src="{{ url_for('static',filename='img/transit.png') }}">
 						<img class="transit-method" src="{{ url_for('static',filename='img/car.png') }}">
+						<script src="{{ url_for('static',filename='js/script.js') }}"></script>
 					</div>
 
 				</div>
@@ -77,7 +78,5 @@
 				</form>
 			</div>
 		</div>
-
-		<script src="{{ url_for('static',filename='js/script.js') }}"></script>
 	</body>
 </html>
