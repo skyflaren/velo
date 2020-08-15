@@ -32,16 +32,43 @@ var rangeSlider = function(){
     });
 };
 
+// Pass values to Flask
 $(document).ready(function(){
     $("#submit").off().click(function(){
-        for(let locat of document.getElementsByClassName('range-slider__range')){
-            var slider_data = locat.value;
-            console.log(slider_data);
+
+        //Time
+        time = document.getElementById("time");
+        $.post({
+            url: "/",
+            data: {'time':time.value}
+        });
+
+        //Accomodations Budget
+        accom = document.getElementById('slider1');
+        $.post({
+            url: "/",
+            data: {'budget':accom.value}
+        });
+
+
+        //Sliders
+        for(let locat of document.getElementsByClassName('location')){
+            console.log("test");
+            console.log(locat.childNodes[1].length);
+            // console.log(locat.childNodes[1].innerHTML + " " + locat.childNodes[2].innerHTML);
+            // Per Location Time
             $.post({
                 url: "/",
-                data: {'data':slider_data}
+                data: { 
+                  "coords": { 
+                    "lat": locat.childNodes[1].innerHTML, 
+                    "lon": locat.childNodes[2].innerHTML,
+                  } 
+                },
             });
         };
+        
+        
     });
 });
 

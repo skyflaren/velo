@@ -7,7 +7,17 @@ app = Flask(__name__)
 def home():
 	if request.method == 'POST':
 		data = request.form.get('data', False)
-		print(data)
+		if(data != False): print(data)
+
+		data = request.form.get('budget', False);
+		if(data != False): print(data)
+
+		data = request.form.get('time', False);
+		if(data != False): print(data)
+
+		data = request.form.get('coords', False);
+		if(data != False): print(data[coords["lat"]])
+
 	return render_template("index.html")
 
 
