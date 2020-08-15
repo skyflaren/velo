@@ -65,8 +65,11 @@
 				</div>
 			</div>
 			<div class="right">
-				<p>name and logo</p>
-				<form method = "POST" action = "#" name="myForm">
+				<div class="center">
+					<img class="logo" src="{{ url_for('static',filename='img/velo-logo.png') }}">
+					<span class="velo">velo</span>
+				</div>
+				<form class="submit-button" method = "POST" action = "#" name="myForm">
 					<input type="submit" value="submit" id="submit"/>
 				</form>
 			</div>
