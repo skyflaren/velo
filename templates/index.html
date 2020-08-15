@@ -17,11 +17,13 @@
 						<span class="label">TIME</span>
 						<span class="expl">(days)</span>
 
-						<input class="option" id="time" placeholder="(days)"></br>
+						<input class="option" id="time" placeholder="7"></br>
 					</div>
 
 					<div class="param">
 						<span class="label">ACCOMODATION</span> 
+						<span class="expl">(stars)</span>
+
 						<form method = "POST" action = "#" name="myForm" onclick ="return false">
 						  	<div class="range-slider">
 						    	<input class="range-slider__range" type="range" value="40" min="0" max="100" name="slider1" id="slider1">
@@ -33,6 +35,7 @@
 
 					<div class="param">
 						<span class="label">METHODS</span>
+						<span class="expl">(transportation)</span>
 						<img class="transit-method" src="{{ url_for('static',filename='img/walk.png') }}">
 						<img class="transit-method" src="{{ url_for('static',filename='img/transit.png') }}">
 						<img class="transit-method" src="{{ url_for('static',filename='img/car.png') }}">
@@ -44,6 +47,7 @@
 					<div class="title">
 						<div class="top-left">
 							<span class="label">LOCATIONS</span>
+							<span class="expl">(time spent per)</span>
 						</div>
 						<div class="top-right">
 							<input class="searchbar" id="auto" placeholder="Enter place" type="text" />
