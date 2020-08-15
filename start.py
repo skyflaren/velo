@@ -21,6 +21,7 @@ def home():
 def process():
     trip_length = request.form['time']
     rating = request.form['rating']
+    icons = eval(request.form['icons'])
     names = eval(request.form['names'])
     lats = eval(request.form['latitudes']) #stringed array back to list
     lons = eval(request.form['longitudes'])
@@ -28,24 +29,33 @@ def process():
 
     print(trip_length)
     print(rating)
+    print(icons)
     print(names)
     print(lats)
     print(lons)
     print(durs)
 
-    if not(trip_length and names):
+    if not(trip_length and sum(icons) >= 1 and names):
         return jsonify({'warning': 'Missing Fields!'})
 
     trip_length = int(trip_length)
+    rating = int(rating)
     lats = list(map(float, lats))
     lons = list(map(float, lons))
     durs = list(map(float, durs))
 
+    travel_mode = 0
+    if icons[2]:
+        travel_mode = 2
+    elif icons[1]:
+        travel_mode = 1
+    elif icons[0]:
+        travel_mode = 0
 
     arr = list([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
     df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
 
-    schedule, warning = geolocation_cluster(df, trip_length)
+    schedule, warning = geolocation_cluster(df, d=trip_length, r=rating, t=travel_mode)
     return jsonify({'schedule': schedule,
                     'warning': warning})
 

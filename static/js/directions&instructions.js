@@ -7,6 +7,8 @@ function initMap() {
   var location = new google.maps.LatLng(43.801304, -79.370698);
   var location2 = new google.maps.LatLng(43.800875, -79.356319);
   var location3 = new google.maps.LatLng(43.652461,-79.387226);
+  var transmethod="transit";
+
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 10,
     center: location 
@@ -22,11 +24,13 @@ function initMap() {
     location2,
     location3,
     directionsService,
-    directionsRenderer
+    directionsRenderer,
+    transmethod
   );
 }
 
-function displayRoute(origin, waypoint, destination, service, display) {
+function displayRoute(origin, waypoint, destination, service, display, transmethod) {
+  var transitMethod = transmethod;
   service.route(
     {
       origin: origin,
@@ -34,20 +38,17 @@ function displayRoute(origin, waypoint, destination, service, display) {
       waypoints: [
          { location: waypoint }
       ],
-      travelMode: google.maps.TravelMode.DRIVING,
+      travelMode: transitMethod,
       avoidTolls: true
     },
     (result, status) => {
       if (status === "OK") {
         display.setDirections(result);
-        instance = document.createElement('img');
-        instance.src = "plus-circle.svg";
-        document.getElementById("right-panel").appendChild(instance);
+        // instance = document.createElement('img');
+        // instance.src = "static/js/plus-circle.svg";
+        // document.getElementById("right-panel").appendChild(instance);
 
-        for(let marker of document.getElementsByClassName("adp-marker2")){
-          console.log("lmao");
-          marker.src = "map-pin.svg";
-        }
+        
 
       } else {
         alert("Could not display directions due to: " + status);
@@ -55,3 +56,14 @@ function displayRoute(origin, waypoint, destination, service, display) {
     }
   );
 }
+
+function restyle(){
+  for(let marker of document.getElementsByClassName("adp-marker2")){
+    console.log("lmao");
+    marker.src = "static/js/map-pin.svg";
+  }
+  for(let time of document.getElementsByClassName("adp-summary")){
+    inst = document.createElement("span");
+  }
+}
+
