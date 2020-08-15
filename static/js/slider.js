@@ -60,7 +60,7 @@ $(document).ready(function(){
         }
 
         for (let icon of document.getElementsByClassName("transit-method")){
-            var opacity = window.getComputedStyle(icon).getPropertyValue("opacity");
+            let opacity = icon.style.opacity;
             console.log(opacity);
 	        if(opacity == 0.6){
 	    	    icons.push(1);
