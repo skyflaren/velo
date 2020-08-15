@@ -43,9 +43,6 @@ $(document).ready(function(){
         longitudes = [],
         names = [];
 
-        time = document.getElementById("time");
-        time_val = time.value;
-
         //Sliders
         for(let locat of document.getElementsByClassName('location')){
             // Per Location Time
@@ -58,7 +55,9 @@ $(document).ready(function(){
             durations.push(locat.innerHTML);
         }
 
-        budget = durations.shift();
+        time = durations.shift();
+
+        console.log(longitudes)
 
         $.ajax({
             type: "POST",
@@ -68,13 +67,18 @@ $(document).ready(function(){
             data: {
                 time: time_val,
                 budget: budget,
-                names: names,
-                latitudes: latitudes,
-                longitudes: longitudes,
-                durations: durations,
+                names: JSON.stringify(names),
+                latitudes: JSON.stringify(latitudes),
+                longitudes: JSON.stringify(longitudes),
+                durations: JSON.stringify(durations),
             }
         });
 
+        .done(function(data) {
+            if(data.warning){
+                console.log(warning)
+            }
+        });
         event.preventDefault();
     });
 });

@@ -23,9 +23,13 @@ def process():
 	trip_length = request.form['time']
 	budget = request.form['budget']
 	names = request.form['names']
-	lats = request.form['latitudes']
-	lons = request.form['longitudes']
-	durs = request.form['durations']
+	lats = eval(request.form['latitudes']) #stringed array back to list
+	lons = eval(request.form['longitudes'])
+	durs = eval(request.form['durations'])
+
+	lats = list(map(float, lats))
+	lons = list(map(float, lons))
+	durs = list(map(float, durs))
 
 	print(trip_length)
 	print(budget)
@@ -35,7 +39,7 @@ def process():
 	print(durs)
 
 	if not(trip_length and names):
-		return jsonify({'error': 'Missing Fields!'})
+		return jsonify({'warning': 'Missing Fields!'})
 
 	arr = np.asarray([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
 	df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
