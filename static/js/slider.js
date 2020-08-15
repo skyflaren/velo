@@ -39,6 +39,7 @@ $(document).ready(function(){
         var time_val = "",
         rating = "",
         durations = [],
+        transit = [],
         latitudes = [],
         longitudes = [],
         names = [];
