@@ -10,7 +10,6 @@ for (let slider of document.getElementsByClassName("range-slider__range")){
         var color = 'linear-gradient(90deg, #e3975d ' + x + '%, #e0d1c5 ' + x + '%)';
         slider.style.background = color;
     });
-
 };
 
 var rangeSlider = function(){
@@ -38,6 +37,7 @@ $(document).ready(function(){
 
         var time_val = "",
         rating = "",
+        icons = [],
         durations = [],
         latitudes = [],
         longitudes = [],
@@ -58,9 +58,18 @@ $(document).ready(function(){
             durations.push(locat.innerHTML);
         }
 
-        rating = durations.shift();
+        for (let icon of document.getElementsByClassName("transit-method")){
+            var opacity = window.getComputedStyle(icon).getPropertyValue("opacity");
+            console.log(opacity);
+	        if(opacity == 0.6){
+	    	    icons.push(1);
+	        }
+	        else{
+	            icons.push(0);
+	        }
+	    };
 
-        console.log(longitudes)
+        rating = durations.shift();
 
         $.ajax({
             type: "POST",
@@ -70,6 +79,7 @@ $(document).ready(function(){
             data: {
                 time: time_val,
                 rating: rating,
+                icons: JSON.stringify(icons),
                 names: JSON.stringify(names),
                 latitudes: JSON.stringify(latitudes),
                 longitudes: JSON.stringify(longitudes),

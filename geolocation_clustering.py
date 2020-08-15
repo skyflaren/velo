@@ -45,11 +45,18 @@ def tsp(graph, s=0):
     path.append(node)
     return path
 
-def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
+def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
     trip_length = d
     hours_per_day = h
     rating = r
+    if t == 2:
+        hours_per_day -= 2
+    elif t == 1:
+        hours_per_day -= 3
+    elif t == 0:
+        hours_per_day -= 5
 
+    print(hours_per_day)
     warnings = []
 
     dataframe = df.to_numpy()
@@ -75,11 +82,11 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
     hd = haversine_distances(rad_coords, rad_coords)
 
     n = len(hd)
-    avg_dist = sum(sum(x) for x in hd / (n * (n-1)))
 
     # print(avg_dist)
 
     epsilon = 15 / kms_per_radian
+    avg_dist = max(epsilon, sum(sum(x) for x in hd / (n * (n - 1))))
     samples = max(1, int((len(coords)/trip_length)-1))
     db = DBSCAN(eps=avg_dist, min_samples=samples, algorithm='ball_tree', metric='haversine').fit(np.radians(coords))
 
