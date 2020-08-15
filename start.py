@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
+    global trip_length, names, lats, lons, durs, schedule, warnings
     trip_length = ""
     names = []
     lats = []
