@@ -7,7 +7,7 @@ function initMap() {
   var location = new google.maps.LatLng(43.801304, -79.370698);
   var location2 = new google.maps.LatLng(43.800875, -79.356319);
   var location3 = new google.maps.LatLng(43.652461,-79.387226);
-  var transmethod="transit";
+  var transmethod="DRIVING";
 
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 10,
@@ -58,10 +58,10 @@ function displayRoute(origin, waypoint, destination, service, display, transmeth
 }
 
 function restyle(){
-  for(let marker of document.getElementsByClassName("adp-marker2")){
-    console.log("lmao");
-    marker.src = "static/js/map-pin.svg";
-  }
+  // for(let marker of document.getElementsByClassName("adp-marker2")){
+  //   console.log("lmao");
+  //   marker.src = "static/js/map-pin.svg";
+  // }
   for(let time of document.getElementsByClassName("adp-summary")){
     inst = document.createElement("span");
   }

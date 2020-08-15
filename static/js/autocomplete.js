@@ -7,7 +7,11 @@ function initAutocomplete(){
         center: {
             lat: 40.72,
             lng: -73.96
-        }
+        },
+        zoomControl: false,
+        scaleControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
     });
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('auto'),
