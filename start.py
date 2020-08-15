@@ -7,6 +7,13 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
+    trip_length = ""
+    names = []
+    lats = []
+    lons = []
+    durs = []
+    schedule = []
+    warnings = []
     return render_template("index.html")
 
 @app.route('/process', methods=['GET', 'POST'])
@@ -55,14 +62,16 @@ def process():
 
     return jsonify({'redirect':url_for('directions', day=1, total=total_days)})
 
-@app.route('/directions', methods=['GET', 'POST'])
-def directions_test():
-    return render_template("directions_test.html")
+# @app.route('/directions', methods=['GET', 'POST'])
+# def directions_test():
+#     return render_template("directions_test.html")
 
 @app.route('/directions/<day>/<total>', methods=['GET', 'POST'])
 def directions(day, total):
     print(schedule)
-    return render_template("directions.html", schedule=schedule[int(day)-1], total=total)
+    # if request.method == 'GET':
+        # return jsonify({'schedule':schedule[int(day)-1]})
+    return render_template("directions.html", schedule=schedule[int(day)-1], day=day, total=total)
 
 # @app.route("/login", methods=["GET", "POST"])
 # def login():

@@ -1,3 +1,5 @@
+var schedule = [];
+
 function initMap() {
   
    //var lat1 = document.getElementById("lat1").value;
@@ -46,9 +48,8 @@ function initMap() {
     transmethod
   );
 
-  var test = '{{schedule}}';
-  console.log(schedule);
-  console.log("test");
+
+  alert("thing");
 }
 
 function displayRoute(origin, waypoint, destination, service, display, transmethod) {
@@ -80,6 +81,9 @@ function displayRoute(origin, waypoint, destination, service, display, transmeth
 }
 
 function restyle(){
+//    var path = loadPath({{schedule|tojson}})
+//    console.log("test");
+//    console.log(path);
    for(let marker of document.getElementsByClassName("adp-marker2")){
      console.log("lmao");
      marker.src = "static/js/map-pin.svg";
@@ -89,3 +93,6 @@ function restyle(){
   }
 }
 
+function write_to_schedule(data){
+    schedule = data['schedule'];
+}

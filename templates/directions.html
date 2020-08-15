@@ -7,6 +7,15 @@
             defer></script>
         <link href="{{ url_for('static',filename='css/directions.css') }}" rel="stylesheet" type="text/css" />
         <script src="{{ url_for('static',filename='js/directions&instructions.js') }}"></script>
+        <script>
+            $(document).ready(function(){
+                    $.get({
+                        url: "directions/{{day}}/{{total}}",
+                        success: function(data){
+                            write_to_schedule(JSON.parse(data.schedule));
+                    }});
+            });
+        </script>
     </head>
     <body>
         <!-- <img src="{{ url_for('static',filename='img/transit.png') }}">lmao</img> -->
