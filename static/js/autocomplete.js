@@ -1,6 +1,14 @@
-let autocomplete;
+let autocomplete, map;
+
 
 function initAutocomplete(){
+    map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: {
+            lat: 40.72,
+            lng: -73.96
+        }
+    });
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('auto'),
         {
@@ -15,13 +23,7 @@ function initAutocomplete(){
 function onChange(){
     const geocoder = new google.maps.Geocoder();
     const infowindow = new google.maps.InfoWindow();
-    const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
-        center: {
-          lat: 40.72,
-          lng: -73.96
-        }
-      });
+    
     var place = autocomplete.getPlace();
     if (!place.geometry){
         document.getElementById('auto').placeholder = 'Enter place';
