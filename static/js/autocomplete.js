@@ -14,6 +14,14 @@ function initAutocomplete(){
 
 function onChange(){
     const geocoder = new google.maps.Geocoder();
+    const infowindow = new google.maps.InfoWindow();
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: {
+          lat: 40.72,
+          lng: -73.96
+        }
+      });
     var place = autocomplete.getPlace();
     if (!place.geometry){
         document.getElementById('auto').placeholder = 'Enter place';
@@ -25,6 +33,34 @@ function onChange(){
             },
             (results, status) => {
                 if (status === "OK") {
+                    var tmp = document.getElementsByClassName("logo")[0];
+                    var velo = document.getElementsByClassName("velo")[0];
+                    var right = document.getElementsByClassName("right")[0];
+                    var map2 = document.getElementById("map");
+
+                    let i = 1.0;
+                    fade = setInterval(function(){
+                        // tmp.style.opacity = i+"";
+                        // velo.style.opacity = i+"";
+                        right.style.backgroundColor = "rgba(227, 164, 116, " + i + ")"; 
+                        i -= 0.01;
+                        if(i == 0){
+                            clearInterval(fade);
+                            fade = false;
+                        }
+                    },1000);
+
+                    tmp.style.display = "none";
+                    tmp.style.visbility = "none";
+                    map2.style.zIndex = "1";
+                    map.setZoom(11);
+                    map.setCenter(results[0].geometry.location);
+                    let marker = new google.maps.Marker({
+                        map,
+                        position: results[0].geometry.location
+                    });
+                    infowindow.setContent(results[0].formatted_address);
+                    infowindow.open(map, marker);
                     document.getElementById('auto').value = '';
                     // document.getElementById('details').innerHTML = results[0].geometry.location.lat()+ " " + results[0].geometry.location.lng();
 
