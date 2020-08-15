@@ -1,6 +1,6 @@
 import pandas as pd, numpy as np, matplotlib.pyplot as plt
 import googlemaps
-import json
+from haversine import haversine, Unit
 
 from math import *
 from sklearn.cluster import DBSCAN
@@ -45,9 +45,10 @@ def tsp(graph, s=0):
     path.append(node)
     return path
 
-def geolocation_cluster(df, d=6, h=10):  # df will be a pandas DataFrame
+def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
     trip_length = d
     hours_per_day = h
+    rating = r
 
     warnings = []
 
@@ -221,6 +222,42 @@ def geolocation_cluster(df, d=6, h=10):  # df will be a pandas DataFrame
 
     gmaps = googlemaps.Client(key='AIzaSyBQStAxxL0wjGxNFPIixAsjHwXRbRVhmkg')
 
+    def get_centroid(cluster):
+        centroid = (MultiPoint(cluster).centroid.x, MultiPoint(cluster).centroid.y)
+        return centroid
+
+    # for cluster in clusters:
+    centroid = get_centroid(cluster)
+    search_query = googlemaps.client.places(client=gmaps, query="hotels", location=centroid, radius=15000)
+    print(search_query)
+    print(centroid)
+
+    min_dist = float("inf")
+
+    hotel_name = ""
+    hotel_latlon = ""
+    hotel_rating = 0
+
+    for result in search_query['results']:
+        result_name = result['name']
+        result_latlon = [result['geometry']['location']['lat'], result['geometry']['location']['lng']]
+        result_rating = result['rating']
+        result_dist = haversine(centroid, result_latlon)
+
+        if abs(result_rating - rating) <= 0.5 and abs(hotel_rating - rating) <= 0.5 and result_dist < min_dist:
+            hotel_name = result_name
+            hotel_latlon = result_latlon
+            hotel_rating = result_rating
+            min_dist = result_dist
+
+        elif abs(result_rating - rating) <= 0.5 and 0.5 < abs(hotel_rating - rating):
+            hotel_name = result_name
+            hotel_latlon = result_latlon
+            hotel_rating = result_rating
+            min_dist = result_dist
+
+    print(hotel_name)
+    print(hotel_latlon)
 
     # for cluster in schedule:
     #     for day in cluster:
@@ -311,4 +348,4 @@ data = np.array([  # test dataframe
 
 df = pd.DataFrame(data, columns=["lat", "lon", "avg_time"])
 
-schedule, warnings = geolocation_cluster(df)
+schedule, warnings = geolocation_cluster(df,r=4)
