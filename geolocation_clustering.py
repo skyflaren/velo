@@ -55,6 +55,7 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
     dataframe = df.to_numpy()
 
     coords = df[["lat", "lon"]].values
+    # print(coords)
 
     # graph = haversine_distances(coords, coords)
     # print(graph)
@@ -62,13 +63,27 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
     # avg_dist = sum(sum(x) for x in graph)/(n*n)
 
 
+
+
     # NOTE: epsilon and minimum samples should be tweaked according to entry data
     kms_per_radian = 6371.0088
-    epsilon = 15 / kms_per_radian
-    samples = int(len(coords)/trip_length)
-    db = DBSCAN(eps=epsilon, min_samples=5, algorithm='ball_tree', metric='haversine').fit(np.radians(coords))
 
-    if samples <= 2:
+    rad_coords = []
+    for i in coords:
+        rad_coords.append(list(map(radians, i)))
+
+    hd = haversine_distances(rad_coords, rad_coords)
+
+    n = len(hd)
+    avg_dist = sum(sum(x) for x in hd / (n * (n-1)))
+
+    # print(avg_dist)
+
+    epsilon = 15 / kms_per_radian
+    samples = max(1, int((len(coords)/trip_length)-1))
+    db = DBSCAN(eps=avg_dist, min_samples=samples, algorithm='ball_tree', metric='haversine').fit(np.radians(coords))
+
+    if samples <= 2 and trip_length > 3:
         warnings.append("The program detected that you haven't entered many locations relative to the trip length, "
                         "this may result in a very sparse schedule. Consider adding more locations or reducing" 
                         " the trip length if the results aren't as desired.")
@@ -81,6 +96,8 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
 
     clusters = pd.Series([coords[cluster_labels == n] for n in range(num_clusters)])
 
+    # print(clusters)
+
     def get_centermost_point(cluster):
         centroid = (MultiPoint(cluster).centroid.x, MultiPoint(cluster).centroid.y)
         centermost_point = min(cluster, key=lambda point: great_circle(point, centroid).m)
@@ -91,28 +108,32 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
         if len(cluster) > 0:
             centermost_points.append(get_centermost_point(cluster))
 
-    lats, lons = zip(*centermost_points)
-    rs = pd.DataFrame({'lon': lons, 'lat': lats})
+    # lats, lons = zip(*centermost_points)
+    # rs = pd.DataFrame({'lon': lons, 'lat': lats})
 
-    total_hours = sum(l[2] for l in dataframe)
+    total_hours = sum(l[3] for l in dataframe)
     # print(total_hours)
 
     location_duration_dict = {}
     location_day_dict = {}
     for loc in dataframe:
-        location_duration_dict[(loc[0], loc[1])] = loc[2]
+        location_duration_dict[(loc[1], loc[2])] = loc[3]
 
     num_centers = []
     cluster_hours = []
 
     for num, cluster in enumerate(clusters):
         cluster_hours.append(sum(location_duration_dict[(idx[0], idx[1])] for idx in cluster))
-        num_centers.append(round(cluster_hours[num] / total_hours * trip_length))  # how many days should be spent at each cluster
+        num_centers.append(min(1,round(cluster_hours[num] / total_hours * trip_length)))  # how many days should be spent at each cluster
 
     if abs(sum(num_centers) - total_hours / hours_per_day) > 1:  # if the amount of days doesn't match the total trip time
         warnings.append("It was detected that too many events were chosen for the given time frame. "
                         "A schedule has been generated to match the given restrictions as closely as possible. "
                         "Consider changing the time frame or locations visited for optimal results.")
+
+    # print(total_hours)
+    # print(cluster_hours)
+    # print(num_centers)
 
     def circular_point(start, tc, d):  # tc is the heading in radians clockwise of true north
         lat1, lon1 = start[0] * pi / 180, start[1] * pi / 180
@@ -173,13 +194,21 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
             location_day_dict[(activity[0], activity[1])] = add_to
         schedule_hours[cid] = hours_remaining
 
-    # print(schedule_hours)
+    for cid, cluster in enumerate(schedule):
+        print("Cluster #%s" % cid)
+        for did, day in enumerate(cluster):
+            print("Day #%s" % did)
+            for location in day:
+                print(location, "Hours spent at location: ", location_duration_dict[
+                    (location[0], location[1])])  # Hotels don't have a duration dict will need to accomodate
 
     #  Handle Outliers
     for index, location in enumerate(cluster_labels):
+        if len(clusters) == 0:
+            centermost_points = [coords[0],coords[1]]
         if location == -1:
             found = False
-            lat, lon, dur = df['lat'][index], df['lon'][index], df['avg_time'][index]
+            lat, lon, dur = df['lat'][index], df['lon'][index], df['duration'][index]
             latlon = [radians(lat), radians(lon)]
             temp_centermost_points = []
             for center in centermost_points:
@@ -232,11 +261,11 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
 
     final_schedule = [[[] for __ in range(num_centers[_])] for _ in range(num_clusters)]
 
-    for cluster in clusters:
+    for cid, cluster in enumerate(clusters):
         centroid = get_centroid(cluster)
         search_query = googlemaps.client.places(client=gmaps, query="hotels", location=centroid, radius=15000)
-        print(search_query)
-        print(centroid)
+        # print(search_query)
+        # print(centroid)
 
         min_dist = float("inf")
 
@@ -245,11 +274,14 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
         hotel_rating = 0
 
         if search_query['status'] == "OK":
+            # print("ok")
             for result in search_query['results']:
                 result_name = result['name']
                 result_latlon = [result['geometry']['location']['lat'], result['geometry']['location']['lng']]
                 result_rating = result['rating']
                 result_dist = haversine(centroid, result_latlon)
+
+                # print("Name:",result_name,"LatLon:",result_latlon,"Rating:",result_rating,"Dist:",result_dist)
 
                 if abs(result_rating - rating) <= 0.5 and abs(hotel_rating - rating) <= 0.5 and result_dist < min_dist:
                     hotel_name = result_name
@@ -257,7 +289,13 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
                     hotel_rating = result_rating
                     min_dist = result_dist
 
-                elif abs(result_rating - rating) <= 0.5 and 0.5 < abs(hotel_rating - rating):
+                elif abs(result_rating - rating) <= 0.5 and 0.5 > abs(hotel_rating - rating):
+                    hotel_name = result_name
+                    hotel_latlon = result_latlon
+                    hotel_rating = result_rating
+                    min_dist = result_dist
+
+                elif abs(result_rating - rating) < abs(hotel_rating - rating):
                     hotel_name = result_name
                     hotel_latlon = result_latlon
                     hotel_rating = result_rating
@@ -265,11 +303,18 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
 
             hotel_names.append(hotel_name)
             hotel_latlons.append(hotel_latlon)
-            hotel_availability.append(True)
-            location_duration_dict[(hotel_latlon[0], hotel_latlon[1])] = 999
+
+            if hotel_name:
+                hotel_availability.append(True)
+                location_duration_dict[(hotel_latlon[0], hotel_latlon[1])] = 999
+            else:
+                warnings.append("Couldn't find a hotel for cluster " + str(cid) + ". The algorithm has calculated the"
+                                " schedule based on the first activity for those days. Please find suitable accommodation.")
+                hotel_availability.append(False)
         else:
-            warnings.append("Couldn't find a hotel for " + str(len(cluster)) + "days. The algorithm has calculated the"
-                            "schedule based on the first activity for those days. Please find suitable accommodation.")
+            # print("status not ok")
+            warnings.append("Couldn't find a hotel for cluster " + str(cid) + ". The algorithm has calculated the"
+                            " schedule based on the first activity for those days. Please find suitable accommodation.")
             hotel_availability.append(False)
             hotel_names.append("")
             hotel_latlons.append([])
@@ -301,10 +346,14 @@ def geolocation_cluster(df, d=6, h=10, r=3):  # df will be a pandas DataFrame
                                         "that all of the locations are in valid locations.")
 
             path = tsp(graph)
-            final_schedule[cid][did].append(hotel_latlons[cid])
-            for i in path[1:]:
-                final_schedule[cid][did].append(day[i-1])
-            final_schedule[cid][did].append(hotel_latlons[cid])
+            if hotel_availability[cid]:
+                final_schedule[cid][did].append(hotel_latlons[cid])
+                for i in path[1:]:
+                    final_schedule[cid][did].append(day[i-1])
+                final_schedule[cid][did].append(hotel_latlons[cid])
+            else:
+                for i in path:
+                    final_schedule[cid][did].append(day[i])
 
     '''
     # Display clusters on matplotlib

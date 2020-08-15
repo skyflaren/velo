@@ -37,11 +37,14 @@ $(document).ready(function(){
     $("#submit").off().click(function(){
 
         var time_val = "",
-        budget = "",
+        rating = "",
         durations = [],
         latitudes = [],
         longitudes = [],
         names = [];
+
+        time = document.getElementById("time");
+        time_val = time.value;
 
         //Sliders
         for(let locat of document.getElementsByClassName('location')){
@@ -55,7 +58,7 @@ $(document).ready(function(){
             durations.push(locat.innerHTML);
         }
 
-        time = durations.shift();
+        rating = durations.shift();
 
         console.log(longitudes)
 
@@ -66,18 +69,18 @@ $(document).ready(function(){
             traditional: true,
             data: {
                 time: time_val,
-                budget: budget,
+                rating: rating,
                 names: JSON.stringify(names),
                 latitudes: JSON.stringify(latitudes),
                 longitudes: JSON.stringify(longitudes),
                 durations: JSON.stringify(durations),
             }
         })
-        // .done(function(data) {
-        //     if(data.warning){
-        //         console.log(data.warning);
-        //     }
-        // });
+         .done(function(data) {
+             if(data.warning){
+                 console.log(data.warning);
+             }
+         });
         event.preventDefault();
     });
 });
