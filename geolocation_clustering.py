@@ -87,6 +87,10 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
 
     epsilon = 15 / kms_per_radian
     avg_dist = max(epsilon, sum(sum(x) for x in hd / (n * (n - 1))))
+    if t == 1:
+        avg_dist*=2/3
+    if t == 0:
+        avg_dist*=1/4
     samples = max(1, int((len(coords)/trip_length)-1))
     db = DBSCAN(eps=avg_dist, min_samples=samples, algorithm='ball_tree', metric='haversine').fit(np.radians(coords))
 

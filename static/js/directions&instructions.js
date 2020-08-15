@@ -1,7 +1,8 @@
 var schedule = [],
 locations = [],
 day = 1,
-total = 1;
+total = 1,
+travel_mode = 0;
 
 function initMap() {
     
@@ -18,7 +19,17 @@ function initMap() {
     }
     console.log(locations[0].lat());
     console.log(locations[0].lng());
-    var transmethod="DRIVING";
+    console.log(travel_mode)
+    var transmethod = "DRIVING";
+    if (travel_mode == 2){
+        transmethod = "DRIVING";
+    }
+    else if (travel_mode == 1){
+        transmethod = "BICYCLING";
+    }
+    else{
+        transmethod = "WALKING";
+    }
 
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: 10,
@@ -105,6 +116,7 @@ function pass_to_script(data){
     schedule = data['schedule'];
     day = parseInt(data['day']);
     total = parseInt(data['total']);
+    travel_mode = parseInt(data['travel']);
     console.log(schedule);
     console.log(day);
     console.log(total);
