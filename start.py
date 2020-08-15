@@ -5,19 +5,11 @@ from geolocation_clustering import geolocation_cluster
 
 app = Flask(__name__)
 
-trip_length = ""
-names = []
-lats = []
-lons = []
-durs = []
-
-
 @app.route("/", methods=['GET', 'POST'])
 def home():
     return render_template("index.html")
 
-
-@app.route('/process', methods=['POST'])
+@app.route('/process', methods=['GET', 'POST'])
 def process():
     trip_length = request.form['time']
     rating = request.form['rating']
@@ -55,13 +47,22 @@ def process():
     arr = list([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
     df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
 
-    schedule, warning = geolocation_cluster(df, d=trip_length, r=rating, t=travel_mode)
-    return jsonify({'schedule': schedule,
-                    'warning': warning})
+    response, warnings = geolocation_cluster(df, d=trip_length, r=rating, t=travel_mode)
+    for cluster in response:
+        for day in cluster:
+            schedule.append(day)
+    total_days = len(schedule)
+
+    return jsonify({'redirect':url_for('directions', day=1, total=total_days)})
 
 @app.route('/directions', methods=['GET', 'POST'])
-def directions():
-    return render_template("directions.html");
+def directions_test():
+    return render_template("directions_test.html")
+
+@app.route('/directions/<day>/<total>', methods=['GET', 'POST'])
+def directions(day, total):
+    print(schedule)
+    return render_template("directions.html", schedule=schedule[int(day)-1], total=total)
 
 # @app.route("/login", methods=["GET", "POST"])
 # def login():
@@ -72,6 +73,12 @@ def directions():
 # def user(usr):
 #     return f"<h1>{usr}</h1>";
 
-
 if __name__ == "__main__":
+    trip_length = ""
+    names = []
+    lats = []
+    lons = []
+    durs = []
+    schedule = []
+    warnings = []
     app.run(debug=True)

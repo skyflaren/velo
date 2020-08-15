@@ -87,11 +87,14 @@ $(document).ready(function(){
                 durations: JSON.stringify(durations),
             }
         })
-         .done(function(data) {
-             if(data.warning){
-                 console.log(data.warning);
-             }
-         });
+        .done(function(data) {
+            if(data.warning){
+                console.log(data.warning);
+            }
+            if(data.redirect){
+                window.location.href = data.redirect;
+            }
+        });
         event.preventDefault();
     });
 });

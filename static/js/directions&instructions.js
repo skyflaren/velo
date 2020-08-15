@@ -27,6 +27,10 @@ function initMap() {
     directionsRenderer,
     transmethod
   );
+
+  var test = '{{schedule}}';
+  console.log(schedule);
+  console.log("test");
 }
 
 function displayRoute(origin, waypoint, destination, service, display, transmethod) {
@@ -58,10 +62,10 @@ function displayRoute(origin, waypoint, destination, service, display, transmeth
 }
 
 function restyle(){
-  // for(let marker of document.getElementsByClassName("adp-marker2")){
-  //   console.log("lmao");
-  //   marker.src = "static/js/map-pin.svg";
-  // }
+   for(let marker of document.getElementsByClassName("adp-marker2")){
+     console.log("lmao");
+     marker.src = "static/js/map-pin.svg";
+   }
   for(let time of document.getElementsByClassName("adp-summary")){
     inst = document.createElement("span");
   }

@@ -142,7 +142,7 @@ body{
 	border: none;
 	font-size: calc(1vw + 5px);
 	height: 100%;
-
+    width: 20%;
 	padding: 5px;
 
 	color: var(--gry3);

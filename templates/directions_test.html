@@ -8,7 +8,7 @@
         <link href="{{ url_for('static',filename='css/directions.css') }}" rel="stylesheet" type="text/css" />
         <script src="{{ url_for('static',filename='js/directions&instructions.js') }}"></script>
     </head>
-    <body>
+    <body onload="restyle()">
         <!-- <img src="{{ url_for('static',filename='img/transit.png') }}">lmao</img> -->
         <div id="map"></div>
         <div id="right">
