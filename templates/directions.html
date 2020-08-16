@@ -17,10 +17,14 @@
         <div id="map"></div>
         <div id="right">
             <div id="right-panel"></div>
-            <!-- div id="errors">
+            <div id="errors">
                 <span id="status">STATUS: </span>
                 <span id="message">status message here</span>
-            </div> -->
+            </div>
+            <div id="pagination" onload="onloadPager()">
+                <img class="pager" id="page-left" src="{{ url_for('static',filename='img/page-left.svg') }}" onclick="pageLeft()">
+                <img class="pager" id="page-right" src="{{ url_for('static',filename='img/page-right.svg') }}" onclick="pageRight()">
+            </div>
         </div>
     </body>
 </html> 

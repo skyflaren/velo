@@ -22,7 +22,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: auto;
+  overflow: hidden;
+  background-color: var(--gry1);
 }
 
 #map {
@@ -31,19 +32,55 @@ body {
   width: 63%;
   height: 100%;
 }
-/*
-#errors{
-  height: 10%;
-  min-height: 80px;
-  max-height: 150px;
-  padding: 10px;
-}
-*/
+
+
+
 #right-panel {
   float: right;
   width: 34%;
-  height: 90%;
-  overflow-y: auto;
+  height: 88vh;
+  overflow-y: scroll;
+  padding: 10px;
+  background-color: white;
+}
+
+#errors{
+  /*height: 10%;*/
+  /*min-height: 80px;
+  max-height: 150px;*/
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  font-family: "Work Sans", sans-serif;
+  padding-left: 1.5%;
+  width: 20vw;
+  float: left;
+  margin-top: 15px;
+}
+
+#status{
+  font-weight: bold;
+  font-size: calc(0.5vw + 10px);
+  padding-right: 5px;
+}
+
+#message{
+  font-weight: regular;
+  font-size: calc(0.5vw + 10px);
+}
+
+#pagination{
+  float: right;
+  margin-top: 15px;
+}
+
+#page-left{
+  width: calc(1vw + 10px);
+  padding: 10px;
+}
+
+#page-right{
+  width: calc(1vw + 10px);
   padding: 10px;
 }
 
