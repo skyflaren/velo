@@ -143,7 +143,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
     for num, cluster in enumerate(clusters):
         # print(location_duration_dict)
         cluster_hours.append(sum(location_duration_dict[(idx[0], idx[1])] for idx in cluster))
-        num_centers.append(min(1,round((cluster_hours[num]+1) / total_hours * trip_length)))  # how many days should be spent at each cluster
+        num_centers.append(max(1,round((cluster_hours[num]+1) / total_hours * trip_length)))  # how many days should be spent at each cluster
 
     if abs(sum(num_centers) - total_hours / hours_per_day) > 1:  # if the amount of days doesn't match the total trip time
         warnings.append("It was detected that too many events were chosen for the given time frame. "
