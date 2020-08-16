@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="shortcut icon" type="image/jpg" href="{{ url_for('static',filename='img/favicon.png') }}"/>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
         <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQStAxxL0wjGxNFPIixAsjHwXRbRVhmkg&callback=initMap&libraries=&v=weekly"
@@ -16,10 +17,11 @@
         <!-- <img src="{{ url_for('static',filename='img/transit.png') }}">lmao</img> -->
         <div id="map"></div>
         <div id="right">
+            <span id="day-num">DAY</span>
             <div id="right-panel"></div>
             <div id="errors">
                 <span id="status">STATUS: </span>
-                <span id="message">status message here</span>
+                <span id="message"></span>
             </div>
             <div id="pagination" >
                 <img class="pager" id="page-left" src="{{ url_for('static',filename='img/page-left.svg') }}" onclick="pageLeft()">
