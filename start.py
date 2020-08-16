@@ -56,7 +56,11 @@ def process():
     arr = list([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
     df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
 
-    response, warnings = geolocation_cluster(df, d=trip_length, r=rating, t=travel_mode)
+    response, warnings, generate_map = geolocation_cluster(df, d=trip_length, r=rating, t=travel_mode)
+    if not generate_map:
+        return jsonify({'warning': 'Too many locations were provided for the given time frame!\n'
+                                   'Please reduce the number of locations or increase your time\n '
+                                   'frame and try again!'})
     for cluster in response:
         for day in cluster:
             schedule.append(day)

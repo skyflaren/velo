@@ -90,6 +90,7 @@ $(document).ready(function(){
         .done(function(data) {
             if(data.warning){
                 console.log(data.warning);
+                alert(data.warning);
             }
             if(data.redirect){
                 window.location.href = data.redirect;

@@ -107,6 +107,8 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
 
     clusters = pd.Series([coords[cluster_labels == n] for n in range(num_clusters)])
 
+    if num_clusters == 0:
+        return [], warnings, False
     # print(clusters)
 
     def get_centermost_point(cluster):
@@ -242,6 +244,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
                     break
                 cid = int(cid)
                 closest_dists = []
+                print(schedule)
                 for did, day in enumerate(schedule[cid]):
                     rad_day = []
                     for aclat, aclon in day:
@@ -346,9 +349,14 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
 
             for i in schedule[cid][did]:
                 hotel_and_locations.append(i)
-            tm_dict = googlemaps.client.distance_matrix(client=gmaps,
-                                                        origins=hotel_and_locations,
-                                                        destinations=hotel_and_locations)
+            try:
+                tm_dict = googlemaps.client.distance_matrix(client=gmaps,
+                                                            origins=hotel_and_locations,
+                                                            destinations=hotel_and_locations)
+            except googlemaps.exceptions.ApiError:
+                # warnings.append("Too many locations were provided for the given time frame. Please increase your"
+                #                 " trip length or reduce the number of locations and try again.")
+                return final_schedule, warnings, False
 
             rows = tm_dict['rows']
             for rw, row in enumerate(rows):
@@ -404,7 +412,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
                 print(location, "Hours spent at location: ", location_duration_dict[(location[0],location[1])]) #Hotels don't have a duration dict will need to accomodate
     print(warnings)
 
-    return final_schedule, warnings
+    return final_schedule, warnings, True
 
 
 # data = np.array([  # test dataframe
