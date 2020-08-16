@@ -72,7 +72,7 @@ def process():
 # def directions_test():
 #     return render_template("directions_test.html")
 
-@app.route('/directions/<day>/<total>', methods=['GET', 'POST'])
+@app.route('/directions/<total>/<day>', methods=['GET', 'POST'])
 def directions(day, total):
     print(schedule)
     # if request.method == 'GET':
