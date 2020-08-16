@@ -110,3 +110,17 @@
 input::-moz-focus-inner, input::-moz-focus-outer {
 	border: 0;
 }
+
+input[type="submit"]{
+  background-color: #ffffff;
+  border-color: #e3975d;
+  outline: none;
+  color: #e3975d;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius:4px;
+  padding: 8px 12px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
