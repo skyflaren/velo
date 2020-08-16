@@ -1,6 +1,9 @@
 for (let slider of document.getElementsByClassName("range-slider__range")){
     slider.addEventListener('mousemove', function(){
         var x = slider.value;
+//        console.log((x-slider.min));
+//        console.log(slider.max-slider.min);
+//        console.log((x-slider.min)/(slider.max-slider.min)*100);
         var color = 'linear-gradient(90deg, #e3975d ' + x + '%, #e0d1c5 ' + x + '%)';
         slider.style.background = color;
     });

@@ -46,7 +46,7 @@ def tsp(graph, s=0):
     return path
 
 def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
-    trip_length = d
+    trip_length = max(1,d)
     hours_per_day = h
     rating = r
     if t == 2:
@@ -92,6 +92,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
     if t == 0:
         avg_dist*=1/4
     samples = max(1, int((len(coords)/trip_length)-1))
+    print(samples)
     db = DBSCAN(eps=avg_dist, min_samples=samples, algorithm='ball_tree', metric='haversine').fit(np.radians(coords))
 
     if samples <= 2 and trip_length > 3:
@@ -109,7 +110,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
 
     if num_clusters == 0:
         return [], warnings, False
-    # print(clusters)
+    print(clusters)
 
     def get_centermost_point(cluster):
         centroid = (MultiPoint(cluster).centroid.x, MultiPoint(cluster).centroid.y)
@@ -124,7 +125,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
     # lats, lons = zip(*centermost_points)
     # rs = pd.DataFrame({'lon': lons, 'lat': lats})
 
-    total_hours = sum(l[3] for l in dataframe)
+    total_hours = max(sum(l[3] for l in dataframe),1)
     # print(total_hours)
 
     location_duration_dict = {}
@@ -140,9 +141,9 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
     cluster_hours = []
 
     for num, cluster in enumerate(clusters):
-        print(location_duration_dict)
+        # print(location_duration_dict)
         cluster_hours.append(sum(location_duration_dict[(idx[0], idx[1])] for idx in cluster))
-        num_centers.append(min(1,round(cluster_hours[num] / total_hours * trip_length)))  # how many days should be spent at each cluster
+        num_centers.append(min(1,round((cluster_hours[num]+1) / total_hours * trip_length)))  # how many days should be spent at each cluster
 
     if abs(sum(num_centers) - total_hours / hours_per_day) > 1:  # if the amount of days doesn't match the total trip time
         warnings.append("It was detected that too many events were chosen for the given time frame. "
@@ -165,7 +166,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
     # one dimension for each cluster another for days in each cluster
     schedule = [[[] for __ in range(num_centers[_])] for _ in range(num_clusters)]
     schedule_hours = [[] for _ in range(num_clusters)]
-
+    print(num_centers)
     for cid, cluster in enumerate(clusters):
         if num_centers[cid] < 1:
             continue
@@ -244,7 +245,7 @@ def geolocation_cluster(df, t, d=6, h=12, r=3):  # df will be a pandas DataFrame
                     break
                 cid = int(cid)
                 closest_dists = []
-                print(schedule)
+                # print(schedule)
                 for did, day in enumerate(schedule[cid]):
                     rad_day = []
                     for aclat, aclon in day:

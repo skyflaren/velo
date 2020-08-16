@@ -109,6 +109,7 @@ function pass_to_script(data){
     // console.log(schedule);
     // console.log(day);
     // console.log(total);
+    console.log(travel_mode)
 }
 
 

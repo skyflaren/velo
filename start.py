@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    global trip_length, names, lats, lons, durs, schedule, warnings
+    global trip_length, names, lats, lons, durs, schedule, warnings, travel_mode
     trip_length = ""
     names = []
     lats = []
@@ -20,6 +20,8 @@ def home():
 
 @app.route('/process', methods=['GET', 'POST'])
 def process():
+    global trip_length, names, lats, lons, durs, travel_mode
+
     trip_length = request.form['time']
     rating = request.form['rating']
     icons = eval(request.form['icons'])
@@ -46,12 +48,14 @@ def process():
     durs = list(map(float, durs))
 
     travel_mode = 0
-    if icons[2]:
+    if icons[2] == 1:
         travel_mode = 2
-    elif icons[1]:
+    elif icons[1] == 1:
         travel_mode = 1
-    elif icons[0]:
+    elif icons[0] == 1:
         travel_mode = 0
+
+    print("Travel Mode", travel_mode)
 
     arr = list([names[i],lats[i],lons[i],durs[i]] for i in range(len(durs)))
     df = pd.DataFrame(data=arr, columns=['location','lat','lon','duration'])
@@ -77,6 +81,7 @@ def directions(day, total):
     print(schedule)
     # if request.method == 'GET':
         # return jsonify({'schedule':schedule[int(day)-1]})
+    print("Travel here", travel_mode)
     warnings.append("Everything worked!");
     data = {'schedule': schedule[int(day)-1], 'day': day, 'total':total, 'travel':travel_mode, 'warnings': warnings}
     return render_template("directions.html", data=data)
