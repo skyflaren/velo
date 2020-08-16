@@ -2,7 +2,7 @@ var schedule = [],
 locations = [],
 day = 1,
 total = 1,
-travel_mode = 0;
+warnings = [];
 
 function initMap() {
     
@@ -99,25 +99,53 @@ function initMap() {
     );
 }
 
-function restyle(){
-//    var path = loadPath({{schedule|tojson}})
-//    console.log("test");
-//    console.log(path);
-   for(let marker of document.getElementsByClassName("adp-marker2")){
-     console.log("lmao");
-     marker.src = "static/js/map-pin.svg";
-   }
-  for(let time of document.getElementsByClassName("adp-summary")){
-    inst = document.createElement("span");
-  }
-}
+// function restyle(){
+// //    var path = loadPath({{schedule|tojson}})
+// //    console.log("test");
+// //    console.log(path);
+//    for(let marker of document.getElementsByClassName("adp-marker2")){
+//      console.log("lmao");
+//      marker.src = "static/js/map-pin.svg";
+//    }
+//   for(let time of document.getElementsByClassName("adp-summary")){
+//     inst = document.createElement("span");
+//   }
+// }
 
 function pass_to_script(data){
     schedule = data['schedule'];
     day = parseInt(data['day']);
     total = parseInt(data['total']);
-    travel_mode = parseInt(data['travel']);
+    warnings = parseInt(data['warnings']);
     console.log(schedule);
     console.log(day);
-    console.log(total);
+    console.log(total + " total");
+}
+
+function onloadPager(){
+  for(let pager of document.getElementsByClassName("pager")){
+      let tmp = window.location.href.split("/");
+      let last = tmp[tmp.length-1];
+      if(parseInt(last) == 1 && pager.id == 'left'){
+        pager.style.opacity = "0.3";
+        pager.style.cursor = "pointer";
+      }
+  }
+  document.getElementById('message'). 
+}
+
+function pageLeft(){
+    let tmp = window.location.href.split("/");
+    let last = tmp[tmp.length-1];
+    if(parseInt(last)-1 >= 1){
+      window.location.href = (parseInt(last)-1)+"";
+    }
+}
+
+function pageRight(){
+    let tmp = window.location.href.split("/");
+    let last = tmp[tmp.length-1];
+    if(parseInt(last)+1 <= total){
+      window.location.href = (parseInt(last)+1)+""
+    }
 }
