@@ -9,7 +9,7 @@ function initMap() {
     for (let i=0;i<schedule.length;i++){
       locations.push(new google.maps.LatLng(schedule[i][0], schedule[i][1]));
     }
-    
+
     var transmethod = "DRIVING";
     if (travel_mode == 2){
         transmethod = "DRIVING";
@@ -114,15 +114,16 @@ function pass_to_script(data){
 
 
 function onloadPager(){
+  let tmp = window.location.href.split("/");
+  let last = tmp[tmp.length-1];
   for(let pager of document.getElementsByClassName("pager")){
-      let tmp = window.location.href.split("/");
-      let last = tmp[tmp.length-1];
       if(parseInt(last) == 1 && pager.id == 'left'){
         pager.style.opacity = "0.3";
         pager.style.cursor = "auto";
       }
   }
   document.getElementById('message').innerHTML = warnings[0];
+  document.getElementById('day-num').innerHTML = "DAY " + last;
 }
 
 function pageLeft(){
