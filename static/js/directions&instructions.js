@@ -118,7 +118,7 @@ function pass_to_script(data){
     day = parseInt(data['day']);
     total = parseInt(data['total']);
     travel_mode = parseInt(data['travel']);
-    warnings = parseInt(data['warnings']);
+    warnings = data['warnings'];
     console.log(schedule);
     console.log(day);
     console.log(total);
@@ -245,10 +245,10 @@ function onloadPager(){
       let last = tmp[tmp.length-1];
       if(parseInt(last) == 1 && pager.id == 'left'){
         pager.style.opacity = "0.3";
-        pager.style.cursor = "pointer";
+        pager.style.cursor = "auto";
       }
   }
-  console.log("total: " + total);
+  console.log(warnings[0]);
   document.getElementById('message').innerHTML = warnings[0];
 }
 

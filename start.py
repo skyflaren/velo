@@ -73,6 +73,7 @@ def directions(day, total):
     print(schedule)
     # if request.method == 'GET':
         # return jsonify({'schedule':schedule[int(day)-1]})
+    warnings.append("Everything worked!");
     data = {'schedule': schedule[int(day)-1], 'day': day, 'total':total, 'travel':travel_mode, 'warnings': warnings}
     return render_template("directions.html", data=data)
 

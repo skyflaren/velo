@@ -12,7 +12,7 @@
             pass_to_script(data);
         </script>
     </head>
-    <body>
+    <body onload="onloadPager()">
         <!-- <img src="{{ url_for('static',filename='img/transit.png') }}">lmao</img> -->
         <div id="map"></div>
         <div id="right">
@@ -21,7 +21,7 @@
                 <span id="status">STATUS: </span>
                 <span id="message">status message here</span>
             </div>
-            <div id="pagination" onload="onloadPager()">
+            <div id="pagination" >
                 <img class="pager" id="page-left" src="{{ url_for('static',filename='img/page-left.svg') }}" onclick="pageLeft()">
                 <img class="pager" id="page-right" src="{{ url_for('static',filename='img/page-right.svg') }}" onclick="pageRight()">
             </div>
