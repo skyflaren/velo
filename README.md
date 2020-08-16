@@ -12,6 +12,8 @@ flask
 shapely
 sklearn
 `
+
+
 `pip install [library-name]`
 
 To run the web application, navigate to the velo folder through terminal and type:
