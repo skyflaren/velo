@@ -1,12 +1,12 @@
 # velo
 
-###An Automatic Vacation Generator
+### An Automatic Vacation Generator
 
 The COVID-19 pandemic has shut down the tourism industry. As a result, many vacation plans were ruined and hours of researching itineraries wasted. Our hope is to help travelers generate quick and effective travel itineraries to strengthen the local tourism industry when the time is right.
 
 Velo automatically generates travel itineraries given a time-frame and attractions that the traveler wants to visit. The order of the schedule is determined in our back-end by an algorithm we designed.
 
-###Installation
+### Installation
 
 Velo is a web application built with Flask and a Python backend.
 
